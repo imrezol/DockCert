@@ -1,11 +1,11 @@
 # Create "Root Dev CA" and nginx default certificate+key 
-```bash
+```shell
 docker run -it --rm  -v $(pwd):/exportImport ubuntu:26.04 bash -c "/exportImport/genCerts.sh"
 ```
 Do not add (or share/publish any other way) the ca.key file (Root CA key) to the repository
 
 
-openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout local.key -out local.crt
+openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout local2.key -out local2.crt
 
 # Useful links
 * Online Certificate Decoder: https://www.sslshopper.com/certificate-decoder.html

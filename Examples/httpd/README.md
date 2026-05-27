@@ -1,4 +1,4 @@
-```bash
+```shell
 docker network create httpd1 || true
 
 docker run -dit \
@@ -19,7 +19,7 @@ http://myhttpd1.local
 
 https://myhttpd1.local
 
-```bash
+```shell
 docker network create httpd2 || true
 
 docker run -dit \
@@ -29,7 +29,7 @@ docker run -dit \
       -p 8082:80 \
       --env VIRTUAL_HOST=myhttpd2.local \
       --env VIRTUAL_PORT=80 \
-      --env CERT_NAME=local \
+      --env CERT_NAME=local2 \
       httpd:2.4
 ```
 
