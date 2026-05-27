@@ -2,39 +2,41 @@
 
 set -eu
 
+echo "****************************************************************************************************"
+echo "* Update OS and install openssl"
+echo "****************************************************************************************************"
 apt-get update
 apt-get install openssl
-echo "****************************************************************************************************"
-openssl version
-echo "****************************************************************************************************"
+
+cd /exportImport
 
 echo "****************************************************************************************************"
-echo Generate Root CA key
+echo "* Generate Root CA key"
 echo "****************************************************************************************************"
-openssl genrsa -aes256 -out ca-key.pem 4096
+openssl genrsa -aes256 -out ca.key 4096
 
 
 echo "****************************************************************************************************"
-echo Generate CA certificate \(expire after ~ 10 years !!!\)
+echo "* Generate CA certificate (expire after ~ 10 years !!!)"
 echo "****************************************************************************************************"
-openssl req -new -x509 -days 3650 -key ca-key.pem -sha256 -out ca.pem
+openssl req -new -x509 -days 3650 -key ca.key -sha256 -out ca.crt
 
 echo "****************************************************************************************************"
-echo Generate default server key
+echo "* Generate default server key"
 echo "****************************************************************************************************"
-openssl genrsa -out server-key.pem 4096
+openssl genrsa -out local.key 4096
 
 echo "****************************************************************************************************"
-echo Generate sign request for CA
+echo "* Generate sign request for CA"
 echo "****************************************************************************************************"
-openssl req -subj "/CN=DevDockCert" -sha256 -new -key server-key.pem -out local.csr
+openssl req -subj "/CN=DevDockCert" -sha256 -new -key local.key -out local.csr
 
 echo "****************************************************************************************************"
-echo Generate server certificate and sign with CA certificate
+echo "* Generate server certificate and sign with CA certificate"
 echo "****************************************************************************************************"
-openssl x509 -req -days 3650 -sha256 -in local.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out server-cert.pem -extfile extfile.conf
+openssl x509 -req -days 3650 -sha256 -in local.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out local.crt -extfile extfile.conf
 
 echo "****************************************************************************************************"
-echo Delete sign request
+echo "* Done"
 echo "****************************************************************************************************"
-rm local.csr
+
