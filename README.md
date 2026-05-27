@@ -7,7 +7,10 @@ docker network create httpd2 || true
 docker run --detach \
     --name nginx-proxy \
     --publish 80:80 \
+    --publish 443:443 \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
+    --volume $(pwd)/Certificates/server-key.pem:/etc/nginx/certs/local.key:ro \
+    --volume $(pwd)/Certificates/server-cert.pem:/etc/nginx/certs/local.crt:ro \
     --network=my_local \
     --network=httpd1 \
     --network=httpd2 \

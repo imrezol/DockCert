@@ -1,1 +1,4 @@
 .idea
+
+#Do not add (or share/publish any other way) the ca.key file (Root CA key) to the repository
+Certificates/ca.key
